@@ -1,0 +1,6 @@
+Hello {CONTACT_NAME},
+
+Please find invoice {INVOICE_NUMBER} attached to this email.
+Please confirm your order.
+Best regards,
+{ORG_NAME}

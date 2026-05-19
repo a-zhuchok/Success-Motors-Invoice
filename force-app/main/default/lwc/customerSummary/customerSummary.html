@@ -1,0 +1,116 @@
+<template>
+    <lightning-card title="Customer Summary">
+        <div class="slds-p-around_small">
+            <template if:true={showListControls}>
+                <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12">
+                        <lightning-input
+                            type="text"
+                            label="Search by Account Name"
+                            value={accountNameSearch}
+                            onchange={handleAccountSearchChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12">
+                        <lightning-input
+                            type="number"
+                            label="Search by Closed Total Amount"
+                            value={closedTotalSearch}
+                            onchange={handleTotalSearchChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-align-bottom">
+                        <lightning-button
+                            class="slds-m-right_x-small"
+                            label="Search"
+                            onclick={handleSearch}>
+                        </lightning-button>
+                        <lightning-button
+                            label="Reset"
+                            onclick={handleReset}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isLoading}>
+                <lightning-spinner size="medium" alternative-text="Loading"></lightning-spinner>
+            </template>
+
+            <template if:false={isLoading}>
+                <template if:true={errorMessage}>
+                    <div class="slds-text-color_error slds-m-bottom_small">{errorMessage}</div>
+                </template>
+
+                <template if:true={hasAccounts}>
+                    <lightning-accordion allow-multiple-sections-open>
+                        <template for:each={accountRows} for:item="account">
+                            <lightning-accordion-section
+                                key={account.accountId}
+                                name={account.accountId}
+                                label={account.sectionLabel}>
+                                <lightning-datatable
+                                    key-field="id"
+                                    data={account.opportunities}
+                                    columns={opportunityColumns}
+                                    hide-checkbox-column
+                                    onrowaction={handleOpportunityRowAction}>
+                                </lightning-datatable>
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+                </template>
+                <template if:false={hasAccounts}>
+                    <div class="slds-text-body_regular">No data found.</div>
+                </template>
+
+                <template if:true={showListControls}>
+                    <div class="slds-grid slds-grid_align-end slds-m-top_small slds-gutters_small">
+                        <div class="slds-col">
+                            <lightning-button
+                                label="Previous"
+                                onclick={handlePrevPage}
+                                disabled={isPrevDisabled}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col slds-align_absolute-center">{pageInfoLabel}</div>
+                        <div class="slds-col">
+                            <lightning-button
+                                label="Next"
+                                onclick={handleNextPage}
+                                disabled={isNextDisabled}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template if:true={isProductsModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">{modalTitle}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={isProductsLoading}>
+                        <lightning-spinner size="small" alternative-text="Loading products"></lightning-spinner>
+                    </template>
+                    <template if:false={isProductsLoading}>
+                        <lightning-datatable
+                            key-field="id"
+                            data={products}
+                            columns={productColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" onclick={closeProductsModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

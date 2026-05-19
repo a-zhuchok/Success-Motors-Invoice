@@ -1,0 +1,72 @@
+<template>
+    <lightning-quick-action-panel header="Send Invoice">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <template if:false={isLoading}>
+            <div class="slds-p-around_small">
+                <lightning-input
+                    type="text"
+                    label="Invoice Number"
+                    value={invoiceNumber}
+                    read-only>
+                </lightning-input>
+
+                <lightning-input
+                    class="slds-m-top_small"
+                    type="text"
+                    label="Recipient Name"
+                    value={recipientName}
+                    read-only>
+                </lightning-input>
+
+                <lightning-input
+                    class="slds-m-top_small"
+                    type="email"
+                    label="Recipient Email"
+                    value={recipientEmail}
+                    read-only>
+                </lightning-input>
+
+                <lightning-input
+                    class="slds-m-top_small"
+                    type="text"
+                    label="Subject"
+                    value={subject}
+                    read-only>
+                </lightning-input>
+
+                <lightning-textarea
+                    class="slds-m-top_small"
+                    label="Email Body"
+                    value={body}
+                    onchange={handleBodyChange}>
+                </lightning-textarea>
+            </div>
+        </template>
+
+        <div slot="footer" class="slds-grid slds-grid_align-spread">
+            <lightning-button
+                label="Preview Invoice"
+                onclick={handlePreview}
+                disabled={isPreviewDisabled}>
+            </lightning-button>
+
+            <div>
+                <lightning-button
+                    class="slds-m-right_small"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    disabled={isSending}>
+                </lightning-button>
+                <lightning-button
+                    variant="brand"
+                    label="Send"
+                    onclick={handleSend}
+                    disabled={isSendDisabled}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-quick-action-panel>
+</template>

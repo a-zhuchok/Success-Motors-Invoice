@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template for sending generated Opportunity invoice.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Send Invoice Template</name>
+    <style>none</style>
+    <subject>Invoice {INVOICE_NUMBER} for your order</subject>
+    <textOnly>true</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
