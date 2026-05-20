@@ -8,7 +8,6 @@ private class OrderConfirmationEmailServiceTest {
             return;
         }
 
-        OrderConfirmationEmailService.waitingStageNames = new Set<String>{ waitingStage };
         Opportunity opp = createOpportunity(waitingStage);
 
         Messaging.InboundEmail email = new Messaging.InboundEmail();
@@ -34,7 +33,6 @@ private class OrderConfirmationEmailServiceTest {
             return;
         }
 
-        OrderConfirmationEmailService.waitingStageNames = new Set<String>{ waitingStage };
         Opportunity opp = createOpportunity(waitingStage);
 
         Messaging.InboundEmail email = new Messaging.InboundEmail();
@@ -52,7 +50,6 @@ private class OrderConfirmationEmailServiceTest {
     @IsTest
     static void doesNothingWhenDecisionOrInvoiceMissing() {
         String waitingStage = getOpenStageName();
-        OrderConfirmationEmailService.waitingStageNames = new Set<String>{ waitingStage };
         Opportunity opp = createOpportunity(waitingStage);
 
         Messaging.InboundEmail email = new Messaging.InboundEmail();

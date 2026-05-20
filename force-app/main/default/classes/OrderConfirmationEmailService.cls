@@ -1,11 +1,4 @@
 global with sharing class OrderConfirmationEmailService implements Messaging.InboundEmailHandler {
-    @TestVisible
-    private static Set<String> waitingStageNames = new Set<String>{
-        'Prospecting',
-        'Pending Confirmation',
-        'Ожидание подтверждения заказа'
-    };
-
     global Messaging.InboundEmailResult handleInboundEmail(
         Messaging.InboundEmail email,
         Messaging.InboundEnvelope envelope
@@ -36,9 +29,6 @@ global with sharing class OrderConfirmationEmailService implements Messaging.Inb
         }
 
         Opportunity opp = opportunities[0];
-        if (!isWaitingForConfirmation(opp.StageName)) {
-            return result;
-        }
 
         if (decision == 'REJECTED') {
             String closedLostStage = getClosedLostStageName();
@@ -86,10 +76,6 @@ global with sharing class OrderConfirmationEmailService implements Messaging.Inb
             return 'REJECTED';
         }
         return null;
-    }
-
-    private static Boolean isWaitingForConfirmation(String stageName) {
-        return !String.isBlank(stageName) && waitingStageNames.contains(stageName);
     }
 
     private static String getNextStageName(String currentStageName) {
